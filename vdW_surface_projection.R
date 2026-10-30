@@ -7,15 +7,39 @@
 
 # Required packages ----------------------------
 
-install.packages("sf")
-install.packages("ggplot2")
+#install.packages("sf")
+#install.packages("ggplot2")
 library('sf')
 library('ggplot2')
 
 
 # IMPORT DATA ----------------------------
 
-file_name <- file.choose() #file name stored as character too for saving file 
+file_name <- file.choose() 
+setwd(dirname(file_name))
+
+# GENERAL SETTINGS ----------------------------
+vdW_radii <- c(H = 1.2,
+               He = 1.4,
+               C = 1.7, 
+               N = 1.55,
+               O = 1.52,
+               F = 1.47,
+               Ne = 1.54,
+               Si = 2.1,
+               P = 1.8,
+               S = 1.8,
+               Cl = 1.75,
+               Ar = 1.88,
+               As = 1.85,
+               Se = 1.90,
+               Br = 1.85,
+               Kr = 2.02,
+               Te = 2.06,
+               I = 1.98,
+               Xe = 2.16
+)
+
 
 # SANITY CHECK (molecule structure) ----------------------------
 lines <- readLines(file_name, warn = FALSE, encoding = "UTF-8")
@@ -26,7 +50,7 @@ is_coordinate_line <- vapply(
   parts,
   function (x) {
     length(x) >= 4 &&
-      x[1] %in% c("H","C","N") &&
+      x[1] %in% names(vdW_radii) &&
       !is.na(suppressWarnings(as.numeric(x[2]))) &&
       !is.na(suppressWarnings(as.numeric(x[3]))) &&
       !is.na(suppressWarnings(as.numeric(x[4])))
@@ -62,24 +86,15 @@ atoms <- data.frame(
     4))
 )
 
-print(atoms)
-cat("\nNumber of atoms:", nrow(atoms), "\n")
-cat("Elment counts:\n")
-print(table(atoms$element))
-
-# GENERAL SETTINGS ----------------------------
-
-#define plane_atoms
-
 coordinates <-as.matrix(atoms[, c("x", "y", "z")])
 
 plane_coordinates  <- coordinates[plane_atoms, ]
 
-vdW_radii <- c(H = 1.2, C=1.7, N=1.55)
 
-#TODO add more atoms 
-
-#define specimen_name 
+print(atoms)
+cat("\nNumber of atoms:", nrow(atoms), "\n")
+cat("Elment counts:\n")
+print(table(atoms$element))
 
 
 
@@ -179,6 +194,29 @@ cat("Converted footprint:",
 
 
 # PROJECTIONS ----------------------------
+
+element_colours <- c(
+  H  = "white",
+  He = "cyan",
+  C  = "grey30",
+  N  = "royalblue",
+  O  = "red",
+  F  = "forestgreen",
+  Ne = "cyan3",
+  Si = "tan",
+  P  = "orange",
+  S  = "gold",
+  Cl = "green3",
+  Ar = "purple",
+  As = "orchid",
+  Se = "darkorange",
+  Br = "firebrick",
+  Kr = "steelblue",
+  Te = "darkgoldenrod",
+  I  = "darkviolet",
+  Xe = "deepskyblue"
+)
+
 ggplot() +
   geom_sf(
     data = atomic_circles,
@@ -201,18 +239,12 @@ ggplot() +
     size = 3
   ) +
   coord_sf(datum = NA) +
-  scale_fill_manual(
-    values = c(
-      C= "grey30",
-      N = "royalblue",
-      H = "grey85"
-    )
-  ) +
-  scale_colour_manual(
-    values = c( C="black", N="blue", H="grey50")
-  ) +
+  scale_fill_manual(values = element_colours) +
+  scale_colour_manual(values = element_colours) +
   labs(
-    title = paste("Projected van der Waals footprint", specimen_name),    #*" [" * C[2] * "mim]" ^"+"),
+    title = str_wrap(
+      paste("Projected van der Waals footprint", specimen_name),
+      width = 35),    #*" [" * C[2] * "mim]" ^"+"),
     subtitle = paste0("Boolean union area = ", 
                       round(union_area_A2,2), 
                       expression("Å²")),
@@ -233,3 +265,18 @@ ggsave(filename =  paste(specimen_name, "_vdW_projection.png"),
        width = 7,
        height = 8,
        dpi = 600)
+
+#Results export
+results <- data.frame(specimen = specimen_name,
+                      union_area = union_area_A2,
+                      summed_area = summed_area_A2,
+                      overlap_area = overlap_area_A2,
+                      overlap_percent = overlap_percent)
+
+write.table(results,
+            paste0(specimen_name, "_results.txt"),
+            row.names = FALSE)
+
+#Session info export
+writeLines(capture.output(sessionInfo()),
+  paste0(specimen_name, "_SessionInfo.txt"))
