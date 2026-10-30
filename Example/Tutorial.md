@@ -19,7 +19,7 @@
 Optimise the molecular geometry before running the script. Identify the atoms that will define the reference plane for the Boolean unit calculation (Figure 1). 
 
 
-
+<img src="Example/Figure1.png" width="600">
 Figure 1. Optimised geometry of 1-octyl-3-methylimidazolium (CID 2734224), generated using the MMFF94s molecular mechanics force field in Avogrado, showing atom labels. 
 
 
