@@ -22,7 +22,7 @@ Package sf and ggplot2.
 
 
 
-##### Input 
+## Input 
 
 
 
@@ -49,7 +49,7 @@ H          0.59738        0.89733       -1.52670
 
 
 
-##### Procedure
+## Procedure
 
 
 
@@ -85,7 +85,7 @@ The script will automatically:
 &#x09;- Generate a graphical representation of the projection footprint.
 
 
-##### Output
+## Output
 
 
 The script generates the following information
@@ -106,11 +106,9 @@ The script generates the following information
 
 &#x09;- A .png file with the vdW projection of the molecule, with atoms coloured by element, and the area (specimen\_name\_vdW\_projection.png)
 
+ 
 
-
-##### 
-
-##### Assumptions and limitations
+## Assumptions and limitations
 
 
 
@@ -123,11 +121,9 @@ Area footprints are based on 2D projections.
 Plane selection influences the calculated footprint.
 
 
+ 
 
-
-##### 
-
-##### References
+## References
 
 \[1] Bondi, A. van der Waals Volumes and Radii. Journal of Physical Chemistry 1964, 68(3), 441-451. DOI: 10.1021/j100785a001
 
