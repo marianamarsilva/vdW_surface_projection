@@ -8,7 +8,7 @@ The molecular structure is projected onto a user defined plane. The individual a
 
 
 
-## Requirements
+##### Requirements
 
 
 
@@ -20,7 +20,7 @@ Package sf and ggplot2 (in the R console run install.packages("sf"), install.pac
 
 
 
-## Input 
+##### Input 
 
 
 
@@ -46,7 +46,7 @@ H          0.59738        0.89733       -1.52670
 
 
 
-## Procedure
+##### Procedure
 
 
 
@@ -72,13 +72,13 @@ E.g.
 
 Run the scrip and selecting the correct .txt file 
 
+Important: At least 3 atoms are required to define the reference plane.
+
+##### Output
 
 
-## Output
 
-
-
-The script generates the following information:
+The script generates the following information
 
 &#x09;- Number of atoms and element counts
 
@@ -98,7 +98,9 @@ The script generates the following information:
 
 
 
-## Assumptions and limitations
+##### 
+
+##### Assumptions and limitations
 
 
 
@@ -116,7 +118,7 @@ Plane selection influences the calculated footprint.
 
 
 
-## References
+
 
 \[1] Bondi, A. van der Waals Volumes and Radii. Journal of Physical Chemistry 1964, 68(3), 441-451. DOI: 10.1021/j100785a001
 
