@@ -2,9 +2,11 @@
 
 
 
-The script calculates the projected van der Waals (vdW) footprint of a molecule using a Boolean union approach. 
+This R script calculates the projected van der Waals (vdW) footprint of a molecule using a Boolean union approach. 
 
-The molecular structure is projected onto a user defined plane. The individual atomic vdW spheres are represented as circles using Bondi radii. Overlapping regions are removed using a Boolean union operation.
+The molecular structure is projected onto a user defined plane. 
+Individual atoms are represented as circles with a radii corresponding to their vdW radii (Bondi radii\[1]).
+Overlapping regions are removed using a Boolean union operation to calculate the corrected milecular footprint area.
 
 
 
@@ -14,7 +16,7 @@ The molecular structure is projected onto a user defined plane. The individual a
 
 R version 4.0 and above
 
-Package sf and ggplot2 (in the R console run install.packages("sf"), install.packages("ggplot2") and then library("sf") and library ("ggplot2"))
+Package sf and ggplot2.
 
 
 
@@ -24,7 +26,8 @@ Package sf and ggplot2 (in the R console run install.packages("sf"), install.pac
 
 
 
-A coordinate file in .txt format (this could be for instance obtained from the .xyz exported from Avogrado).
+The script requires a coordinate file in .txt format.
+Such files can be generated from an optimised molecular structure, for example by exporting an .xyz file from Avogrado.
 
 
 
@@ -50,49 +53,56 @@ H          0.59738        0.89733       -1.52670
 
 
 
-Select the atoms defining the projection plane (e.g., check the number attribute to each atom in the Avogrado projection)
+Identify the atoms that define the projection plane.
 
 In the R console:
 
-&#x09;Define the working directory (e.g. setwd())					
 
-&#x09;Define the plane atoms (plane\_atoms) 
+&#x09;Define the plane atoms (plane\_atoms), where numbers corresopnf to the atom indices in the coordinate file.
 
 &#x09;Define the specimen name (specimen\_name)
+
+Important: At least 3 atoms are required to define the reference plane.
 
 E.g. 
 
 
+> plane\_atoms <- c(plane_atoms <- c(1,2,10,11,13))
 
-> plane\_atoms <- c(1,5,7,3)
-
-> specimen\_name <- c("1-ethyl-3-methylcyclohexane")
-
+specimen_name <- c("1-octyl-3-methylimidazolium")
 
 
-Run the scrip and selecting the correct .txt file 
 
-Important: At least 3 atoms are required to define the reference plane.
+Run the scrip and select the desired coordinate .txt file when prompted.
+
+The script will automatically:
+
+&#x09;- Import the molecular coordinates;
+&#x09;- Fit a least-squares plane through the selected atoms;
+&#x09;- Project all atoms onto the plane;
+&#x09;- Assign vdW radii;
+&#x09;- Calculate overlaped Boolean union area;
+&#x09;- Generate a graphical representation of the projection footprint.
+
 
 ##### Output
 
 
-
 The script generates the following information
 
-&#x09;- Number of atoms and element counts
+&#x09;- Number of atoms and elemental composition
 
-&#x09;- Normal vector of the plane
+&#x09;- Plane normal vector
 
-&#x09;- Projected xx and yy radius per atom (vdW radii are assigned according to Bondi\[1])
+&#x09;- Projected atomic coordinates
+
+&#x09;- Assigned vdW radii (Bondi radii\[1])
 
 &#x09;- Boolean union area (in Angstrom squared)
 
 &#x09;- Removed overlapping area
 
 &#x09;- Removed percentage
-
-&#x09;- Converted footprint in square meter
 
 &#x09;- A .png file with the vdW projection of the molecule, with atoms coloured by element, and the area (specimen\_name\_vdW\_projection.png)
 
@@ -115,10 +125,9 @@ Plane selection influences the calculated footprint.
 
 
 
+##### 
 
-
-
-
+##### References
 
 \[1] Bondi, A. van der Waals Volumes and Radii. Journal of Physical Chemistry 1964, 68(3), 441-451. DOI: 10.1021/j100785a001
 
