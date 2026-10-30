@@ -1,6 +1,6 @@
-# **Tutorial**
+Tutorial
 
-## 1. Install the required packages
+1. Install the required packages
 
 > install.packages("sf")
 > install.packages("ggplot2")
@@ -17,7 +17,7 @@ Export the optimised strcutres as an XYZ cordinate file (the file must be in .tx
 > plane_atoms <- c(1,2,10,11,13)
 
 
-## 3. Define specimen name
+3. Define specimen name
 
 The specimen name must be defined before running the scrip. 
 
