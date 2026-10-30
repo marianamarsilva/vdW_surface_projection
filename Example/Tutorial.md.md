@@ -12,7 +12,7 @@
 
 
 
-\## 2. Define plane atoms
+## 2\. Define plane atoms
 
 
 
